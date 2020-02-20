@@ -112,3 +112,85 @@ print(bank.checkBalance())
 Bills paid
 100
 ```
+
+# Inheritance
+##  Inheritance means that you create a (child) class by deriving from another (parent) class. The child class reuses all fields and methods of the parent class (common part) and can implement its own (unique part).
+### Inheritance is most simply explained by using people as an example. In this we go from the general person, which has first and last name attributes, to a specialized person with new attributes.
+### We first create the Person class with first and last name attributes and a print name method:
+```
+class Person:
+  def __init__(self, fname, lname):
+    self.firstname = fname
+    self.lastname = lname
+
+  def printname(self):
+    return self.firstname + " " + self.lastname
+```
+### Then we can create a child class which inherits from Person:
+```
+class Student(Person):
+  pass
+```
+### The class is currently identical to the parent "Person" class, but we are going to override the constructor with our own so that we can add a graduation year:
+```
+class Student(Person):
+  def __init__(self, fname, lname, year):
+    super().__init__(fname, lname)
+    self.graduationyear = year
+```
+### Now if we created a person object and asked it to say it's name the student object would be able to do the same:
+```
+person = Person("John", "Smith")
+print(person.printname())
+student = Student("Adam", "Kovic", 2019)
+print(student.printname())
+print(student.graduationyear)
+```
+### This would have the output, we inherited the lname and fname attributes from the Person class:
+```
+John Smith
+Adam Kovic
+2019
+```
+
+# Polymorphism
+## Polymorphism gives a way to use a class exactly like its parent so there’s no confusion with mixing types. But each child class keeps its own methods as they are.
+### Polymorphism uses the idea of an interface, which is basically a skeleton class which contains methods that you implement in each child class.
+### The largest benfit to this concept is that you can mix several types in a list but still perform the method on the list since each object will use its own implementation.
+### The Person class example from the last topic can be reused here, in this case we will use the printinfo method as an example:
+```
+class Person:
+  def __init__(self, fname, lname):
+    self.firstname = fname
+    self.lastname = lname
+
+  def printinfo(self):
+    return self.firstname + " " + self.lastname
+```
+### We create a new class called doctor that inherits from Person, this time we override the printinfo method to include "Dr." when printing a doctor objects info:
+```
+class Doctor(Person):
+  def __init__(self, fname, lname, year):
+    super().__init__(fname, lname)
+
+  def printinfo(self):
+    return "Dr." + self.firstname + " " + self.lastname
+```
+### If we create a list with both Person and Doctor objects then ask to printinfo for that list:
+```
+doctor = Doctor("James", "Willems")
+doctorTwo = Doctor("Elyse", "Willems")
+person = Person("Alanah", "Pearce")
+personTwo = Person("Jacob", "Fullerton")
+
+nameList = [doctor, person, doctorTwo, personTwo]
+for obj in nameList:
+    print(obj.printinfo())
+```
+### We will get the correct output for each object specification:
+```
+Dr.James Willems
+Alanah Pearce
+Dr.Elyse Willems
+Jacob Fullerton
+```
